@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from blog.forms import PostForm
 from blog.models import Post
@@ -12,6 +12,14 @@ def post_list(request):
     return render(request, 'post_list.html', {'posts': posts})
 
 def post_new(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('post_detail', post_id=post.id)
     form = PostForm()
     return render(request, 'post_new.html', {'form': form})
 
