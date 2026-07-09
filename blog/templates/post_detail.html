@@ -12,6 +12,6 @@
         <a class="btn btn-default" href="/post/edit/{{ post.id }}">Редагувати</a>
         {% endif %}
         <h1>{{ post.title }}</h1>
-        <p>{{ post.text|linebreaksbr }}</p>
+        <p>{{ post.text|safe }}</p>
     </div>
 {% endblock %}
